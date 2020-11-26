@@ -12,7 +12,10 @@ const port = 3001
 app.use(bodyParser.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
+
 const member = require('./controllers/member')
+const instruktur = require('./controllers/instruktur')
+const tipeMembership = require('./controllers/tipeMembership')
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -26,6 +29,17 @@ const pool = new Pool({
 
 app.post('/member', (req, res) => {
   member.handleMemberPost(req, res, pool)
+})
+// INSTRUKTUR CONTROLLER
+app.post('/instruktur', (req, res) => {
+  instruktur.handleInstrukturPost(req, res, pool)
+})
+// TIPEMEMBERSHIP CONTROLLER
+app.get('/tipe-membership', (req, res) => {
+  tipeMembership.handleTipeMembershipGet(req, res, pool)
+})
+app.post('/tipe-membership', (req, res) => {
+  tipeMembership.handleTipeMembershipPost(req, res, pool)
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
