@@ -1,8 +1,7 @@
 const handleTipeMembershipGet = (req, res, pool) => {
   pool.query('SELECT * FROM tipe_membership ORDER BY tipe', (error, results) => {
     if (error) {
-      console.log(error)
-      res.status(400).json('unable to fetch')
+      res.status(400).json(error.message)
     } else {
       res.status(200).json(results.rows)
     }
@@ -15,8 +14,7 @@ const handleTipeMembershipPost = (req, res, pool) => {
     [tipe, keterangan],
     (error, results) => {
       if (error) {
-        console.log(error)
-        res.status(400).json('unable to fetch')
+        res.status(400).json(error.message)
       } else {
         res.status(200).json('success')
       }

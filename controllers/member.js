@@ -1,3 +1,13 @@
+const handleMemberGet = (req, res, pool) => {
+  pool.query('SELECT * FROM member', (error, results) => {
+    if (error) {
+      console.log(error)
+      res.status(400).json(error.message)
+    } else {
+      res.status(200).json(results.rows)
+    }
+  })
+}
 const handleMemberPost = (req, res, pool) => {
   const { nama, no_telp, email, tgl_lahir } = req.body
   pool.query(
@@ -6,7 +16,7 @@ const handleMemberPost = (req, res, pool) => {
     (error, results) => {
       if (error) {
         console.log(error)
-        res.status(400).json('unable to fetch')
+        res.status(400).json(error.message)
       } else {
         res.status(200).json('success')
       }
@@ -16,4 +26,5 @@ const handleMemberPost = (req, res, pool) => {
 
 module.exports = {
   handleMemberPost: handleMemberPost,
+  handleMemberGet: handleMemberGet,
 }

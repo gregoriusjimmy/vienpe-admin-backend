@@ -5,8 +5,7 @@ const handleInstrukturPost = (req, res, pool) => {
     [nama, no_telp, email, tgl_lahir],
     (error, results) => {
       if (error) {
-        console.log(error)
-        res.status(400).json('unable to fetch')
+        res.status(400).json(error.message)
       } else {
         res.status(200).json('success')
       }
