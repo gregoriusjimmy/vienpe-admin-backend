@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 const member = require('./controllers/member')
 const instruktur = require('./controllers/instruktur')
+const membership = require('./controllers/membership')
 const tipeMembership = require('./controllers/tipeMembership')
 
 const pool = new Pool({
@@ -26,7 +27,9 @@ const pool = new Pool({
 })
 
 // MEMBER CONTROLLER
-
+app.get('/member', (req, res) => {
+  member.handleMemberGet(req, res, pool)
+})
 app.post('/member', (req, res) => {
   member.handleMemberPost(req, res, pool)
 })
@@ -40,6 +43,13 @@ app.get('/tipe-membership', (req, res) => {
 })
 app.post('/tipe-membership', (req, res) => {
   tipeMembership.handleTipeMembershipPost(req, res, pool)
+})
+// MEMBERSHIP CONTROLLER
+app.get('/membership', (req, res) => {
+  membership.handleMembershipGet(req, res, pool)
+})
+app.post('/membership', (req, res) => {
+  membership.handleMembershipPost(req, res, pool)
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

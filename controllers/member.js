@@ -8,6 +8,7 @@ const handleMemberGet = (req, res, pool) => {
     }
   })
 }
+
 const handleMemberPost = (req, res, pool) => {
   const { nama, no_telp, email, tgl_lahir } = req.body
   pool.query(
