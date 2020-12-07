@@ -1,12 +1,15 @@
 const handleMemberGet = (req, res, pool) => {
-  pool.query('SELECT * FROM member', (error, results) => {
-    if (error) {
-      console.log(error)
-      res.status(400).json(error.message)
-    } else {
-      res.status(200).json(results.rows)
+  pool.query(
+    'SELECT id,nama,no_telp,email,tgl_lahir,status_membership::text FROM member',
+    (error, results) => {
+      if (error) {
+        console.log(error)
+        res.status(400).json(error.message)
+      } else {
+        res.status(200).json(results.rows)
+      }
     }
-  })
+  )
 }
 
 const handleMemberPost = (req, res, pool) => {

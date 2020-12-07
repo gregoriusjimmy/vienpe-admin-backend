@@ -4,7 +4,9 @@ const cors = require('cors')
 require('dotenv').config()
 // const bodyParser = require('body-parser');
 
-const { Pool, Client } = require('pg')
+// const { Pool, Client } = require('pg')
+const pg = require('pg')
+const { Pool, Client } = pg
 
 const app = express()
 const port = 3001
@@ -12,6 +14,17 @@ const port = 3001
 app.use(bodyParser.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+// date parser
+const moment = require('moment')
+const parseDate = (val) => {
+  return val === null ? null : moment(val).format('YYYY-MM-DD')
+}
+const types = pg.types
+const DATATYPE_DATE = 1082
+types.setTypeParser(DATATYPE_DATE, (val) => {
+  return val === null ? null : parseDate(val)
+})
 
 const member = require('./controllers/member')
 const instruktur = require('./controllers/instruktur')
