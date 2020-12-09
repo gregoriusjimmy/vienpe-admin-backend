@@ -46,6 +46,9 @@ app.get('/member', (req, res) => {
 app.post('/member', (req, res) => {
   member.handleMemberPost(req, res, pool)
 })
+app.put('/member', (req, res) => {
+  member.handleMemberPut(req, res, pool)
+})
 // INSTRUKTUR CONTROLLER
 app.post('/instruktur', (req, res) => {
   instruktur.handleInstrukturPost(req, res, pool)
