@@ -1,3 +1,14 @@
+const handleInstrukturGet = (req, res, pool) => {
+  pool.query('SELECT id,nama,no_telp,email,tgl_lahir FROM instruktur', (error, results) => {
+    if (error) {
+      console.log(error)
+      res.status(400).json(error.message)
+    } else {
+      res.status(200).json(results.rows)
+    }
+  })
+}
+
 const handleInstrukturPost = (req, res, pool) => {
   const { nama, no_telp, email, tgl_lahir } = req.body
   pool.query(
@@ -5,6 +16,23 @@ const handleInstrukturPost = (req, res, pool) => {
     [nama, no_telp, email, tgl_lahir],
     (error, results) => {
       if (error) {
+        console.log(error)
+        res.status(400).json(error.message)
+      } else {
+        res.status(200).json('success')
+      }
+    }
+  )
+}
+
+const handleInstrukturPut = (req, res, pool) => {
+  const { id, nama, no_telp, email, tgl_lahir } = req.body
+  pool.query(
+    'UPDATE instruktur SET nama=$2,no_telp=$3,email=$4,tgl_lahir=$5 WHERE id=$1',
+    [id, nama, no_telp, email, tgl_lahir],
+    (error, results) => {
+      if (error) {
+        console.log(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json('success')
@@ -14,5 +42,7 @@ const handleInstrukturPost = (req, res, pool) => {
 }
 
 module.exports = {
+  handleInstrukturGet: handleInstrukturGet,
   handleInstrukturPost: handleInstrukturPost,
+  handleInstrukturPut: handleInstrukturPut,
 }

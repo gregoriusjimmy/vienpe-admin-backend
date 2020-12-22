@@ -6,7 +6,7 @@ const membershipRoute = (pool) => {
   const router = express.Router()
 
   router.get('/', (req, res) => membershipController.handleMembershipGet(req, res, pool))
-  router.post('/', (req, res) => membershipController.handleMemberPost(req, res, pool))
+  router.post('/', (req, res) => membershipController.handleMembershipPost(req, res, pool))
 
   return router
 }

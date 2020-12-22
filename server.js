@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const helmet = require('helmet')
 require('dotenv').config()
 
 // const { Pool, Client } = require('pg')
@@ -11,26 +12,36 @@ const { Pool, Client } = pg
 const app = express()
 const port = 3001
 
+app.use(helmet())
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-// date parser
+// date and time parser
 const moment = require('moment')
 const parseDate = (val) => {
-  return val === null ? null : moment(val).format('YYYY-MM-DD')
+  return val === null ? null : moment(val).format('DD-MM-YYYY')
+}
+const parseTime = (val) => {
+  return val === null ? null : moment(val, 'HH:mm:ss').format('HH:mm')
 }
 const types = pg.types
 const DATATYPE_DATE = 1082
+const DATATYPE_TIME = 1083
 types.setTypeParser(DATATYPE_DATE, (val) => {
   return val === null ? null : parseDate(val)
+})
+types.setTypeParser(DATATYPE_TIME, (val) => {
+  return val === null ? null : parseTime(val)
 })
 
 const memberRoute = require('./routes/member.route')
 const instrukturRoute = require('./routes/instruktur.route')
 const membershipRoute = require('./routes/membership.route')
 const tipeMembershipRoute = require('./routes/tipeMembership.route')
+const adminRoute = require('./routes/admin.route')
+const kelasRoute = require('./routes/kelas.route')
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -48,5 +59,11 @@ app.use('/instruktur', instrukturRoute(pool))
 app.use('/tipe-membership', tipeMembershipRoute(pool))
 // MEMBERSHIP
 app.use('/membership', membershipRoute(pool))
+// INSTRUKTUR
+app.use('/instruktur', instrukturRoute(pool))
+// KELAS
+app.use('/kelas', kelasRoute(pool))
+// ADMIN
+app.use('/admin', adminRoute(pool))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

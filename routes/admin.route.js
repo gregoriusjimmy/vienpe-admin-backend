@@ -1,11 +1,13 @@
-// const {router} = require('express')
+const express = require('express')
 
-// router.get('/', function (req, res) {
-//   res.send('Birds home page')
-// })
-// // define the about route
-// router.get('/about', function (req, res) {
-//   res.send('About birds')
-// })
+const adminController = require('../controllers/admin.controller')
 
-// module.exports = router
+const adminRoute = (pool) => {
+  const router = express.Router()
+
+  router.post('/login', (req, res) => adminController.handleAdminLoginPost(req, res, pool))
+
+  return router
+}
+
+module.exports = adminRoute
