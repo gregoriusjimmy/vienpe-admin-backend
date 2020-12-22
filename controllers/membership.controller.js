@@ -16,7 +16,6 @@ const handleMembershipPost = (req, res, pool) => {
     [id_member, tipe_membership, tgl_mulai, tgl_selesai, sisa_point],
     (error, results) => {
       if (error) {
-        console.log(id_member)
         console.log(error)
         res.status(400).json(error.message)
       } else {

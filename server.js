@@ -12,10 +12,10 @@ const { Pool, Client } = pg
 const app = express()
 const port = 3001
 
-app.use(helmet())
+// app.use(helmet())
 app.use(cookieParser())
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // date and time parser
@@ -42,6 +42,7 @@ const membershipRoute = require('./routes/membership.route')
 const tipeMembershipRoute = require('./routes/tipeMembership.route')
 const adminRoute = require('./routes/admin.route')
 const kelasRoute = require('./routes/kelas.route')
+const { requireAuth } = require('./middleware/authMiddleware')
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -52,17 +53,17 @@ const pool = new Pool({
 })
 
 // MEMBER
-app.use('/member', memberRoute(pool))
+app.use('/member', requireAuth, memberRoute(pool))
 // INSTRUKTUR
-app.use('/instruktur', instrukturRoute(pool))
+app.use('/instruktur', requireAuth, instrukturRoute(pool))
 // TIPEMEMBERSHIP
-app.use('/tipe-membership', tipeMembershipRoute(pool))
+app.use('/tipe-membership', requireAuth, tipeMembershipRoute(pool))
 // MEMBERSHIP
-app.use('/membership', membershipRoute(pool))
+app.use('/membership', requireAuth, membershipRoute(pool))
 // INSTRUKTUR
-app.use('/instruktur', instrukturRoute(pool))
+app.use('/instruktur', requireAuth, instrukturRoute(pool))
 // KELAS
-app.use('/kelas', kelasRoute(pool))
+app.use('/kelas', requireAuth, kelasRoute(pool))
 // ADMIN
 app.use('/admin', adminRoute(pool))
 

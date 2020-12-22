@@ -17,7 +17,7 @@ const bcrypt = require('bcrypt')
 //     }
 //   })
 // }
-const MAX_AGE = 2 * 60 * 60
+const MAX_AGE = 3 * 60 * 60
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: MAX_AGE * 1000 })
@@ -36,28 +36,14 @@ const handleAdminLoginPost = (req, res, pool) => {
         if (result === true) {
           const token = createToken(username)
           res.cookie('jwt', token, { httpOnly: true, maxAge: MAX_AGE * 1000 })
-          res.status(200).json('login success')
+          res.status(200).json({ token: token })
         } else {
-          res.status(400).json('salah')
+          res.status(400).json('username atau email salah')
         }
       })
     }
   })
 }
-// const handleMembershipPost = (req, res, pool) => {
-//   const { tipe, keterangan } = req.body
-//   pool.query(
-//     'INSERT INTO tipe_membership (tipe,keterangan) VALUES ($1,$2)',
-//     [tipe, keterangan],
-//     (error, results) => {
-//       if (error) {
-//         res.status(400).json(error.message)
-//       } else {
-//         res.status(200).json('success')
-//       }
-//     }
-//   )
-// }
 
 module.exports = {
   handleAdminLoginPost: handleAdminLoginPost,
