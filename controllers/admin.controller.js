@@ -36,7 +36,7 @@ const handleAdminLoginPost = (req, res, pool) => {
         if (result === true) {
           const token = createToken(username)
           res.cookie('jwt', token, { httpOnly: true, maxAge: MAX_AGE * 1000 })
-          res.status(200).json({ token: token })
+          res.status(200).json({  token: token })
         } else {
           res.status(400).json('username atau email salah')
         }

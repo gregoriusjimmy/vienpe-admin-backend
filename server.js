@@ -43,6 +43,7 @@ const tipeMembershipRoute = require('./routes/tipeMembership.route')
 const adminRoute = require('./routes/admin.route')
 const kelasRoute = require('./routes/kelas.route')
 const { requireAuth } = require('./middleware/authMiddleware')
+const absensiRoute = require('./routes/absensi.route')
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -66,5 +67,7 @@ app.use('/instruktur', requireAuth, instrukturRoute(pool))
 app.use('/kelas', requireAuth, kelasRoute(pool))
 // ADMIN
 app.use('/admin', adminRoute(pool))
+// ABSENSI
+app.use('./absensi', requireAuth, absensiRoute(pool))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
