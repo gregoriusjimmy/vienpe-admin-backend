@@ -37,7 +37,7 @@ const handleInstrukturPut = (req, res, pool) => {
         console.log(error)
         res.status(400).json(error.message)
       } else {
-        res.status(200).json('success')
+        res.status(200).json(results.rows[0])
       }
     }
   )

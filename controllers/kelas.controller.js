@@ -12,7 +12,7 @@ const handleKelasGet = (req, res, pool) => {
 }
 
 const handleKelasPost = (req, res, pool) => {
-  const { id_instruktur, kategori_senam, hari, ja } = req.body
+  const { id_instruktur, kategori_senam, hari, jam } = req.body
   pool.query(
     `INSERT INTO KELAS (id_instruktur,kategori_senam,hari,jam) VALUES ($1,$2,$3,$4)
     RETURNING id,id_instruktur,kategori_senam,hari,jam,aktif,created_at`,

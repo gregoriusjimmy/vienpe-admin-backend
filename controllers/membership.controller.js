@@ -23,7 +23,7 @@ const handleMembershipPost = (req, res, pool) => {
       else {
         pool.query(
           `INSERT INTO membership (id_member,tipe_membership,tgl_mulai,tgl_selesai,sisa_point) VALUES ($1,$2,$3,$4,$5) 
-          RETURNING id,id_member,tipe_membership,tgl_mulai,tgl_selesai,sisa_point`,
+          RETURNING *`,
           [id_member, tipe_membership, tgl_mulai, tgl_selesai, sisa_point],
           (error, results) => {
             if (error) {
@@ -31,6 +31,22 @@ const handleMembershipPost = (req, res, pool) => {
               res.status(400).json(error.message)
             } else {
               res.status(200).json(results.rows[0])
+              // pool.query(
+              //   `SELECT membership.id, member.nama as nama_member, membership.tipe_membership,membership.tgl_mulai,
+              //   membership.tgl_selesai,membership.sisa_point FROM membership
+              // INNER JOIN member on membership.id_member = member.id
+              // WHERE membership.id = $1`,
+              //   [id],
+              //   (error, results) => {
+              //     if (error) {
+              //       console.log(error)
+              //       res.status(400).json(error.message)
+              //     } else {
+              //       console.log(results.rows[0])
+              //       // res.status(200).json(results.rows[0])
+              //     }
+              //   }
+              // )
             }
           }
         )
@@ -39,7 +55,24 @@ const handleMembershipPost = (req, res, pool) => {
   )
 }
 
+const handleMembershipPut = (req, res, pool) => {
+  const { id, tgl_mulai, tgl_selesai, sisa_point } = req.body
+  pool.query(
+    'UPDATE membership SET tgl_mulai=$2,tgl_selesai=$3,sisa_point=$4 WHERE id=$1 RETURNING id,id_member,tipe_membership,tgl_mulai,tgl_selesai,sisa_point',
+    [id, tgl_mulai, tgl_selesai, sisa_point],
+    (error, results) => {
+      if (error) {
+        console.log(error)
+        res.status(400).json(error.message)
+      } else {
+        res.status(200).json(results.rows[0])
+      }
+    }
+  )
+}
+
 module.exports = {
   handleMembershipGet: handleMembershipGet,
   handleMembershipPost: handleMembershipPost,
+  handleMembershipPut: handleMembershipPut,
 }

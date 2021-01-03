@@ -7,6 +7,7 @@ const membershipRoute = (pool) => {
 
   router.get('/', (req, res) => membershipController.handleMembershipGet(req, res, pool))
   router.post('/', (req, res) => membershipController.handleMembershipPost(req, res, pool))
+  router.put('/', (req, res) => membershipController.handleMembershipPut(req, res, pool))
 
   return router
 }
