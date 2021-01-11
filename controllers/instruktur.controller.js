@@ -1,7 +1,7 @@
 const handleInstrukturGet = (req, res, pool) => {
   pool.query('SELECT id,nama,no_telp,email,tgl_lahir FROM instruktur', (error, results) => {
     if (error) {
-      console.log(error)
+      console.error(error)
       res.status(400).json(error.message)
     } else {
       res.status(200).json(results.rows)
@@ -17,7 +17,7 @@ const handleInstrukturPost = (req, res, pool) => {
     [nama, no_telp, email, tgl_lahir],
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows[0])
@@ -34,7 +34,7 @@ const handleInstrukturPut = (req, res, pool) => {
     [id, nama, no_telp, email, tgl_lahir],
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows[0])

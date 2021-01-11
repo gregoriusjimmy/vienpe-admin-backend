@@ -68,6 +68,6 @@ app.use('/kelas', requireAuth, kelasRoute(pool))
 // ADMIN
 app.use('/admin', adminRoute(pool))
 // ABSENSI
-app.use('./absensi', requireAuth, absensiRoute(pool))
+app.use('/absensi', requireAuth, absensiRoute(pool))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

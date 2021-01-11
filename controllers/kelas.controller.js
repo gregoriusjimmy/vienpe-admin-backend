@@ -19,7 +19,7 @@ const handleKelasPost = (req, res, pool) => {
     [id_instruktur, kategori_senam, hari, jam],
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows[0])
@@ -34,7 +34,7 @@ const handleKelasAktifPut = (req, res, pool) => {
     [id, aktif],
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows[0])

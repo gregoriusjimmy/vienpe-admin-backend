@@ -3,7 +3,7 @@ const handleMemberGet = (req, res, pool) => {
     'SELECT id,nama,no_telp,email,tgl_lahir,status_membership::text FROM member',
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows)
@@ -20,7 +20,7 @@ const handleMemberPost = (req, res, pool) => {
 
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows[0])
@@ -36,7 +36,7 @@ const handleMemberPut = (req, res, pool) => {
     [id, nama, no_telp, email, tgl_lahir, status_membership],
     (error, results) => {
       if (error) {
-        console.log(error)
+        console.error(error)
         res.status(400).json(error.message)
       } else {
         res.status(200).json(results.rows[0])
