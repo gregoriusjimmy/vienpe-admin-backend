@@ -24,4 +24,3 @@ const handleTipeMembershipPost = (req, res, pool) => {
     });
 };
 exports.handleTipeMembershipPost = handleTipeMembershipPost;
-//# sourceMappingURL=tipeMembership.controller.js.map

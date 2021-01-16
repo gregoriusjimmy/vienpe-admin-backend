@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { Pool } from 'pg'
-
 import {
   handleMembershipGet,
   handleMembershipPost,

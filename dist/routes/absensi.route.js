@@ -12,4 +12,3 @@ const absensiRoute = (pool) => {
     return router;
 };
 exports.default = absensiRoute;
-//# sourceMappingURL=absensi.route.js.map

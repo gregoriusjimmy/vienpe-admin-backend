@@ -16,7 +16,7 @@ export const handleInstrukturPost = (req: Request, res: Response, pool: Pool) =>
   const { nama, no_telp, email, tgl_lahir } = req.body
   pool.query(
     `INSERT INTO instruktur (nama,no_telp,email,tgl_lahir) VALUES ($1,$2,$3,$4)
-    RETURNING id,nama,no_telp,emexport ail,tgl_lahir`,
+    RETURNING id,nama,no_telp,email,tgl_lahir`,
     [nama, no_telp, email, tgl_lahir],
     (error, results) => {
       if (error) {

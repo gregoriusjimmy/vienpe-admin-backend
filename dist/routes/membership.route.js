@@ -10,4 +10,3 @@ const membershipRoute = (pool) => {
     return router;
 };
 exports.default = membershipRoute;
-//# sourceMappingURL=membership.route.js.map

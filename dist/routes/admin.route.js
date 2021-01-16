@@ -8,4 +8,3 @@ const adminRoute = (pool) => {
     return router;
 };
 exports.default = adminRoute;
-//# sourceMappingURL=admin.route.js.map

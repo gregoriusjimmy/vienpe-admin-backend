@@ -10,4 +10,3 @@ const instrukturRoute = (pool) => {
     return router;
 };
 exports.default = instrukturRoute;
-//# sourceMappingURL=instruktur.route.js.map

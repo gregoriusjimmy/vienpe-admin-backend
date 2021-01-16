@@ -52,4 +52,3 @@ const handleAbsensiInstrukturPost = (req, res, pool) => __awaiter(void 0, void 0
     }
 });
 exports.handleAbsensiInstrukturPost = handleAbsensiInstrukturPost;
-//# sourceMappingURL=absensiInstruktur.js.map

@@ -51,4 +51,3 @@ const handleAdminLoginPost = (req, res, pool) => {
     });
 };
 exports.handleAdminLoginPost = handleAdminLoginPost;
-//# sourceMappingURL=admin.controller.js.map

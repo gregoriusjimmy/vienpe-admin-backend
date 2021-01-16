@@ -7,14 +7,12 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const helmet_1 = __importDefault(require("helmet"));
 require('dotenv').config();
-// const { Pool, Client } = require('pg')
 const pg_1 = __importDefault(require("pg"));
 const { Pool, Client } = pg_1.default;
 const app = express_1.default();
 const port = 3001;
-app.use(helmet_1.default());
+// app.use(helmet())
 app.use(cookie_parser_1.default());
 app.use(body_parser_1.default.json());
 app.use(cors_1.default({ credentials: true, origin: 'http://localhost:3000' }));
@@ -36,6 +34,13 @@ types.setTypeParser(DATATYPE_DATE, (val) => {
 types.setTypeParser(DATATYPE_TIME, (val) => {
     return val === null ? null : parseTime(val);
 });
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+    port: 5432,
+});
 const member_route_1 = __importDefault(require("./routes/member.route"));
 const instruktur_route_1 = __importDefault(require("./routes/instruktur.route"));
 const membership_route_1 = __importDefault(require("./routes/membership.route"));
@@ -44,28 +49,28 @@ const admin_route_1 = __importDefault(require("./routes/admin.route"));
 const kelas_route_1 = __importDefault(require("./routes/kelas.route"));
 const authMiddleware_1 = require("./middleware/authMiddleware");
 const absensi_route_1 = __importDefault(require("./routes/absensi.route"));
-const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASS,
-    port: 5432,
-});
+const path_1 = __importDefault(require("path"));
 // MEMBER
-app.use('/member', authMiddleware_1.requireAuth, member_route_1.default(pool));
+app.use('/api/member', authMiddleware_1.requireAuth, member_route_1.default(pool));
 // INSTRUKTUR
-app.use('/instruktur', authMiddleware_1.requireAuth, instruktur_route_1.default(pool));
+app.use('/api/instruktur', authMiddleware_1.requireAuth, instruktur_route_1.default(pool));
 // TIPEMEMBERSHIP
-app.use('/tipe-membership', authMiddleware_1.requireAuth, tipeMembership_route_1.default(pool));
+app.use('/api/tipe-membership', authMiddleware_1.requireAuth, tipeMembership_route_1.default(pool));
 // MEMBERSHIP
-app.use('/membership', authMiddleware_1.requireAuth, membership_route_1.default(pool));
+app.use('/api/membership', authMiddleware_1.requireAuth, membership_route_1.default(pool));
 // INSTRUKTUR
-app.use('/instruktur', authMiddleware_1.requireAuth, instruktur_route_1.default(pool));
+app.use('/api/instruktur', authMiddleware_1.requireAuth, instruktur_route_1.default(pool));
 // KELAS
-app.use('/kelas', authMiddleware_1.requireAuth, kelas_route_1.default(pool));
+app.use('/api/kelas', authMiddleware_1.requireAuth, kelas_route_1.default(pool));
 // ADMIN
-app.use('/admin', admin_route_1.default(pool));
+app.use('/api/admin', admin_route_1.default(pool));
 // ABSENSI
-app.use('/absensi', authMiddleware_1.requireAuth, absensi_route_1.default(pool));
+app.use('/api/absensi', authMiddleware_1.requireAuth, absensi_route_1.default(pool));
+app.use(express_1.default.static(path_1.default.join(__dirname, '../client/build')));
+app.get('/service-worker.js', (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, '../client/build', 'service-worker.js'));
+});
+app.get('*', function (req, res) {
+    res.sendFile(path_1.default.join(__dirname, '../client/build', 'index.html'));
+});
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-//# sourceMappingURL=server.js.map

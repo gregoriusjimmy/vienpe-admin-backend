@@ -10,4 +10,3 @@ const kelasRoute = (pool) => {
     return router;
 };
 exports.default = kelasRoute;
-//# sourceMappingURL=kelas.route.js.map

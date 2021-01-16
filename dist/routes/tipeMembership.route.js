@@ -9,4 +9,3 @@ const tipeMembershipRoute = (pool) => {
     return router;
 };
 exports.default = tipeMembershipRoute;
-//# sourceMappingURL=tipeMembership.route.js.map

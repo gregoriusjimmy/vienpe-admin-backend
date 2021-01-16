@@ -39,4 +39,3 @@ const handleMemberPut = (req, res, pool) => {
     });
 };
 exports.handleMemberPut = handleMemberPut;
-//# sourceMappingURL=member.controller.js.map

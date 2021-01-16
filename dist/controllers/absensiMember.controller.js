@@ -65,4 +65,3 @@ const handleAbsensiMemberPost = (req, res, pool) => __awaiter(void 0, void 0, vo
     }
 });
 exports.handleAbsensiMemberPost = handleAbsensiMemberPost;
-//# sourceMappingURL=absensiMember.controller.js.map

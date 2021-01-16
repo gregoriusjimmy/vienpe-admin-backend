@@ -20,4 +20,3 @@ const requireAuth = (req, res, next) => {
         return res.status(400).json('not verified');
 };
 exports.requireAuth = requireAuth;
-//# sourceMappingURL=authMiddleware.js.map

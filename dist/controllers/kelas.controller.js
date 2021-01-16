@@ -39,4 +39,3 @@ const handleKelasAktifPut = (req, res, pool) => {
     });
 };
 exports.handleKelasAktifPut = handleKelasAktifPut;
-//# sourceMappingURL=kelas.controller.js.map

@@ -5,14 +5,13 @@ import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 require('dotenv').config()
 
-// const { Pool, Client } = require('pg')
 import pg from 'pg'
 const { Pool, Client } = pg
 
 const app = express()
 const port = 3001
 
-app.use(helmet())
+// app.use(helmet())
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
@@ -36,15 +35,6 @@ types.setTypeParser(DATATYPE_TIME, (val) => {
   return val === null ? null : parseTime(val)
 })
 
-import memberRoute from './routes/member.route'
-import instrukturRoute from './routes/instruktur.route'
-import membershipRoute from './routes/membership.route'
-import tipeMembershipRoute from './routes/tipeMembership.route'
-import adminRoute from './routes/admin.route'
-import kelasRoute from './routes/kelas.route'
-import { requireAuth } from './middleware/authMiddleware'
-import absensiRoute from './routes/absensi.route'
-
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -53,21 +43,41 @@ const pool = new Pool({
   port: 5432,
 })
 
+import memberRoute from './routes/member.route'
+import instrukturRoute from './routes/instruktur.route'
+import membershipRoute from './routes/membership.route'
+import tipeMembershipRoute from './routes/tipeMembership.route'
+import adminRoute from './routes/admin.route'
+import kelasRoute from './routes/kelas.route'
+import { requireAuth } from './middleware/authMiddleware'
+import absensiRoute from './routes/absensi.route'
+import path from 'path'
+
 // MEMBER
-app.use('/member', requireAuth, memberRoute(pool))
+app.use('/api/member', requireAuth, memberRoute(pool))
 // INSTRUKTUR
-app.use('/instruktur', requireAuth, instrukturRoute(pool))
+app.use('/api/instruktur', requireAuth, instrukturRoute(pool))
 // TIPEMEMBERSHIP
-app.use('/tipe-membership', requireAuth, tipeMembershipRoute(pool))
+app.use('/api/tipe-membership', requireAuth, tipeMembershipRoute(pool))
 // MEMBERSHIP
-app.use('/membership', requireAuth, membershipRoute(pool))
+app.use('/api/membership', requireAuth, membershipRoute(pool))
 // INSTRUKTUR
-app.use('/instruktur', requireAuth, instrukturRoute(pool))
+app.use('/api/instruktur', requireAuth, instrukturRoute(pool))
 // KELAS
-app.use('/kelas', requireAuth, kelasRoute(pool))
+app.use('/api/kelas', requireAuth, kelasRoute(pool))
 // ADMIN
-app.use('/admin', adminRoute(pool))
+app.use('/api/admin', adminRoute(pool))
 // ABSENSI
-app.use('/absensi', requireAuth, absensiRoute(pool))
+app.use('/api/absensi', requireAuth, absensiRoute(pool))
+
+app.use(express.static(path.join(__dirname, '../client/build')))
+
+app.get('/service-worker.js', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build', 'service-worker.js'))
+})
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
+})
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
