@@ -3,24 +3,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleAdminLoginPost = void 0;
+exports.handleAdminLoginPost = exports.handleCreateAdmin = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// const saltRounds = 999
-// const fakeSignUp = () => {
-//   const admin = { username: 'admin', password: 'jimmy' }
-//   bcrypt.hash(admin.password, saltRounds, function (err, hash) {
-//     if (hash) {
-//       pool.query(
-//         'INSERT INTO admin (username,password) VALUES ($1,$2)',
-//         [admin.username, hash],
-//         (error, results) => {
-//           if (error) throw Error
-//         }
-//       )
-//     }
-//   })
-// }
+const saltRounds = 999;
+const fakeSignUp = (req, res, pool) => {
+    const admin = { username: 'admin', password: 'jimmy' };
+    bcrypt_1.default.hash(admin.password, saltRounds, function (err, hash) {
+        if (hash) {
+            pool.query('INSERT INTO admin (username,password) VALUES ($1,$2)', [admin.username, hash], (error, results) => {
+                if (error)
+                    throw Error;
+                else
+                    res.send('good');
+            });
+        }
+    });
+};
+const handleCreateAdmin = (req, res, pool) => {
+    fakeSignUp(req, res, pool);
+};
+exports.handleCreateAdmin = handleCreateAdmin;
 const MAX_AGE = 3 * 60 * 60;
 const createToken = (id) => {
     return jsonwebtoken_1.default.sign({ id }, process.env.JWT_SECRET_KEY, { expiresIn: MAX_AGE * 1000 });

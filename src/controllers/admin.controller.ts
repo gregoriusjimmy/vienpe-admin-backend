@@ -2,23 +2,24 @@ import { Request, Response } from 'express'
 import { Pool } from 'pg'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-// const saltRounds = 999
+const saltRounds = 9
 
-// const fakeSignUp = () => {
-//   const admin = { username: 'admin', password: 'jimmy' }
+export const handleCreateAdmin = (req: Request, res: Response, pool: Pool) => {
+  const admin = { username: 'admin', password: 'jimmy' }
+  bcrypt.hash(admin.password, saltRounds, function (err: any, hash: any) {
+    if (err) console.log(err)
+    if (hash) {
+      pool.query(
+        'INSERT INTO admin (username,password) VALUES ($1,$2)',
+        [admin.username, hash],
+        (error, results) => {
+          if (error) throw Error
+        }
+      )
+    }
+  })
+}
 
-//   bcrypt.hash(admin.password, saltRounds, function (err, hash) {
-//     if (hash) {
-//       pool.query(
-//         'INSERT INTO admin (username,password) VALUES ($1,$2)',
-//         [admin.username, hash],
-//         (error, results) => {
-//           if (error) throw Error
-//         }
-//       )
-//     }
-//   })
-// }
 const MAX_AGE = 3 * 60 * 60
 
 const createToken = (id: string) => {

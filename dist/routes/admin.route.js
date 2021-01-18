@@ -5,6 +5,7 @@ const admin_controller_1 = require("../controllers/admin.controller");
 const adminRoute = (pool) => {
     const router = express_1.Router();
     router.post('/login', (req, res) => admin_controller_1.handleAdminLoginPost(req, res, pool));
+    router.get('/create', (req, res) => admin_controller_1.handleCreateAdmin(req, res, pool));
     return router;
 };
 exports.default = adminRoute;
